@@ -1,12 +1,31 @@
 ﻿<Window x:Class="BoardGames.Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BoardGames.Client"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Магазин-прокат настольных игр" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen" Background="#F5F7FA">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <!-- Верхняя панель управления -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <Button x:Name="BtnRefresh" Content="🔄 Обновить каталог" Width="150" Height="30" Margin="0,0,10,0" Click="BtnRefresh_Click"/>
+            <Button x:Name="BtnRent" Content="🎲 Оформить прокат" Width="150" Height="30" Margin="0,0,10,0" Background="#E1F5FE" BorderBrush="#0288D1"/>
+            <Button x:Name="BtnSale" Content="💰 Оформить продажу" Width="150" Height="30" Background="#E8F5E9" BorderBrush="#2E7D32"/>
+        </StackPanel>
+
+        <!-- Главная таблица настольных игр -->
+        <DataGrid x:Name="DgGames" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="Horizontal" Background="White">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"/>
+                <DataGridTextColumn Header="Название игры" Binding="{Binding Title}" Width="2*"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding Category.Name}" Width="1*"/>
+                <DataGridTextColumn Header="Цена продажи (руб.)" Binding="{Binding PriceSale}" Width="1*"/>
+                <DataGridTextColumn Header="Прокат в день (руб.)" Binding="{Binding PriceRentPerDay}" Width="1*"/>
+                <DataGridTextColumn Header="Сумма залога (руб.)" Binding="{Binding DepositAmount}" Width="1*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
