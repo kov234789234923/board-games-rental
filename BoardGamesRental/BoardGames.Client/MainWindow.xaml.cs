@@ -15,7 +15,7 @@ namespace BoardGames.Client
         public MainWindow()
         {
             InitializeComponent();
-            LoadGamesAsync();
+            _ = LoadGamesAsync();
         }
 
         private async void BtnRefresh_Click(object sender, RoutedEventArgs e)
@@ -23,17 +23,74 @@ namespace BoardGames.Client
             await LoadGamesAsync();
         }
 
+        
+        private async void BtnRent_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedGame = DgGames.SelectedItem as BoardGame;
+            if (selectedGame == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите настольную игру из таблицы!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                var response = await _httpClient.PostAsync($"http://localhost:5000/api/games/rent/{selectedGame.Id}", null);
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic? result = JsonConvert.DeserializeObject(content);
+                    MessageBox.Show(result?.message?.ToString() ?? "Успешно оформлено!", "Прокат", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Ошибка сервера: {content}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сети: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        
+        private async void BtnSale_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedGame = DgGames.SelectedItem as BoardGame;
+            if (selectedGame == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите настольную игру из таблицы!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                var response = await _httpClient.PostAsync($"http://localhost:5000/api/games/sell/{selectedGame.Id}", null);
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic? result = JsonConvert.DeserializeObject(content);
+                    MessageBox.Show(result?.message?.ToString() ?? "Успешно продано!", "Продажа", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Ошибка сервера: {content}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сети: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private async Task LoadGamesAsync()
         {
             try
             {
-                // Запрашиваем данные у нашего бэкенд-сервера
                 string jsonResponse = await _httpClient.GetStringAsync("http://localhost:5000/api/games");
-
-                // Расшифровываем JSON текст в C# объекты
                 var games = JsonConvert.DeserializeObject<List<BoardGame>>(jsonResponse);
-
-                // Закидываем список игр в таблицу на экране
                 DgGames.ItemsSource = games;
             }
             catch (Exception ex)

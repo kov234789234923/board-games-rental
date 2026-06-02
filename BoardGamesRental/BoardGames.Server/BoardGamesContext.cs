@@ -14,6 +14,8 @@ namespace BoardGames.Server
         public DbSet<BoardGame> BoardGames { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Rental> Rentals { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,14 +24,17 @@ namespace BoardGames.Server
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             modelBuilder.Entity<BoardGame>().Property(b => b.PriceSale).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<BoardGame>().Property(b => b.PriceRentPerDay).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<BoardGame>().Property(b => b.DepositAmount).HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Rental>().Property(r => r.TotalPrice).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Rental>().Property(r => r.DepositPaid).HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Order>().Property(o => o.SalePrice).HasColumnType("decimal(18,2)");
 
             base.OnModelCreating(modelBuilder);
         }
     }
 }
-
 
