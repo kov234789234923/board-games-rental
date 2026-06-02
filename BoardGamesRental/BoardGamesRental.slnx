@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="BoardGames.Client/BoardGames.Client.csproj" />
   <Project Path="BoardGames.Server/BoardGames.Server.csproj" />
+  <Project Path="BoardGames.Tests/BoardGames.Tests.csproj" />
   <Project Path="BoardGamesRental/BoardGamesRental.csproj" />
 </Solution>
