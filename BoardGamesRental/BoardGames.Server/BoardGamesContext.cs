@@ -17,6 +17,9 @@ namespace BoardGames.Server
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Order> Orders { get; set; }
 
+        // Добавлено для авторизации (соответствует тексту ТЗ)
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BoardGamesDB;Trusted_Connection=True;");
@@ -37,4 +40,3 @@ namespace BoardGames.Server
         }
     }
 }
-

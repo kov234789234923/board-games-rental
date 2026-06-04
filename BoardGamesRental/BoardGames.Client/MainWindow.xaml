@@ -9,14 +9,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Верхняя панель управления -->
+        
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
             <Button x:Name="BtnRefresh" Content="🔄 Обновить каталог" Width="150" Height="30" Margin="0,0,10,0" Click="BtnRefresh_Click"/>
             <Button x:Name="BtnRent" Content="🎲 Оформить прокат" Width="150" Height="30" Margin="0,0,10,0" Background="#E1F5FE" BorderBrush="#0288D1" Click="BtnRent_Click"/>
             <Button x:Name="BtnSale" Content="💰 Оформить продажу" Width="150" Height="30" Background="#E8F5E9" BorderBrush="#2E7D32" Click="BtnSale_Click"/>
         </StackPanel>
 
-        <!-- Главная таблица настольных игр -->
+        
         <DataGrid x:Name="DgGames" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="Horizontal" Background="White">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"/>

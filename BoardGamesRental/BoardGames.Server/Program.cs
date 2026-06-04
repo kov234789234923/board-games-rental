@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using BoardGames.Server;
 using BoardGames.Server.Models;
+using BoardGames.Server.Services;
 using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,6 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BoardGamesContext>();
 
-    
     if (!context.Categories.Any())
     {
         var strategyCategory = new Category { Name = "Стратегии" };
@@ -36,7 +36,6 @@ using (var scope = app.Services.CreateScope())
         );
     }
 
-    
     if (!context.Clients.Any())
     {
         context.Clients.Add(new Client
@@ -45,6 +44,15 @@ using (var scope = app.Services.CreateScope())
             Phone = "+79991112233",
             Email = "ivanov@mail.ru",
             PassportData = "4508 123456"
+        });
+    }
+
+    if (!context.Users.Any())
+    {
+        context.Users.Add(new User
+        {
+            Login = "admin",
+            PasswordHash = PasswordHasher.HashPassword("admin123")
         });
     }
 
